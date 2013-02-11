@@ -28,8 +28,33 @@ Scenario: restrict to movies with 'PG' or 'R' ratings
   # enter step(s) to ensure that PG and R movies are visible
   # enter step(s) to ensure that other movies are not visible
 
+Given I check the following ratings: R, PG
+  And I uncheck the following ratings: PG-13,NC-17,G
+
+	And press "ratings_submit"
+Then the "ratings_PG" checkbox within the page should be checked
+   And the "ratings_R" checkbox within the page should be checked
+   And the "ratings_PG-13" checkbox within the page should not be checked
+   And the "ratings_NC-17" checkbox within the page should not be checked
+   And the "ratings_G" checkbox within the page should not be checked
+
+And I should see "The Incredibles"
+And I should see "Amelie"
+And I should not see "Chocolat"
+And I should not see "Aladdin"
+
+
 Scenario: no ratings selected
   # see assignment
+Given I uncheck the following ratings: R, PG, PG-13, NC-17, G
+And press "ratings_submit"
+Then I should see all of the movies
 
 Scenario: all ratings selected
   # see assignment
+Given I uncheck the following ratings: R, PG, PG-13, NC-17, G
+And press "ratings_submit"
+Then I should see all of the movies
+
+
+
